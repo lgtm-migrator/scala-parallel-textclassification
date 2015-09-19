@@ -45,11 +45,10 @@ class DataSource (
       // Convert collected RDD of events to and RDD of Observation
       // objects.
     )(sc).map(e => {
-      val category : String = e.properties.get[String]("category")
       Observation(
-        if (category == "spam") 1.0 else 0.0,
+        0.0,
         e.properties.get[String]("text"),
-        category
+        e.properties.get[String]("category")
       )
     }).cache
   }
