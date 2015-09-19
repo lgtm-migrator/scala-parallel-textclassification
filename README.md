@@ -1,3 +1,37 @@
+# ISLab Scala Parallel Text Classification
+
+Van-Duyet Le (me@duyetdev.com)
+
+More information comming soon.
+
+# Using 
+
+Start Prediction Server
+````bash
+pio-start-all
+````
+
+Import the data
+````bash
+pio import --appid 3 --input data/vnexpress-1000-import-able.json
+````
+
+Build, Train and deploy server
+````bash
+pio build
+pio train
+pio deploy
+````
+
+List server
+````bash
+pio app list # list all app 
+````
+
+### API Endpoint 
+
+* Event server: **http://localhost:7070/events.json?accessKey=xxxxxx**
+
 # TextManipulationEngine
 
 Look at the following [tutorial](https://docs.prediction.io/demo/textclassification/) for a Quick Start guide and implementation details.
