@@ -1,0 +1,22 @@
+  {
+    "id": "default",
+    "description": "ISLab TextClassification Test",
+    "engineFactory": "com.islab.TextClassificationEngine",
+    "datasource": {
+      "params": {
+        "appName": "islab-scala-parallel-textclassification"
+      }
+    },
+    "preparator": {
+      "params": {
+        "nGram": 2,
+        "numFeatures": 15000
+      }
+    },
+    "algorithms": [{
+      "name": "nb",
+      "params": {
+        "lambda": 0.25
+      }
+    }]
+  }
