@@ -6,10 +6,42 @@ More information comming soon.
 
 # Using 
 
+## Install Engine Prediction Core 
+
+Install Prediction.io server:
+````
+$ bash -c "$(curl -s https://install.prediction.io/install.sh)"
+````
+
+## Deploying 
+
+It takes 6 simple steps to deploy and use an engine:
+
+1. Install and Run PredictionIO
+2. Create an Engine by downloading an Engine Template
+3. Generate an App ID and Access Key, if you are integrating PredictionIO with a new application
+4. Collecting Data
+5. Deploy the Engine as a Service
+6. Use the Engine
+
+**Install Scala Parallel Text Classification:**
+````bash
+git clone https://github.com/duyetdev/scala-parallel-textclassification islab-scala-parallel-textclassification
+cd islab-scala-parallel-textclassification
+````
+
+## Engine Commands
+
 Start Prediction Server
 ````bash
 pio-start-all
 ````
+
+
+* `pio build` Build the engine at the current directory.
+* `pio train` Kick off a training using an engine.
+* `pio deploy` Deploy an engine as an engine server. If no instance ID is specified, it will deploy the latest instance.
+
 
 Import the data
 ````bash
