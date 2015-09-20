@@ -46,9 +46,9 @@ class DataSource (
       // objects.
     )(sc).map(e => {
       Observation(
-        0.0,
+        e.properties.get[Double]("label"),
         e.properties.get[String]("text"),
-        e.properties.get[String]("category")
+        e.properties.get[String]("label")
       )
     }).cache
   }
