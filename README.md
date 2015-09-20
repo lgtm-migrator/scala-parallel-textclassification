@@ -45,7 +45,7 @@ pio-start-all
 
 Import the data
 ````bash
-pio import --appid 3 --input data/vnexpress-1000-import-able.json
+pio import --appid <app_id> --input data/vnexpress-1000-import-able.json
 ````
 
 Build, Train and deploy server
