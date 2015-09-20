@@ -44,14 +44,17 @@ class PreparedData (
   val numFeatures: Int
 ) extends Serializable {
 
-
+  // Remove unuse string, icon, special character
+  def processString(text : String): String = {
+    return text
+  }
 
   // 1. Hashing function: Text -> term frequency vector.
 
   private val hasher = new HashingTF(numFeatures = numFeatures)
 
   private def hashTF (text : String) : Vector = {
-    val newList : Array[String] = text.split(" ")
+    val newList : Array[String] = processString(text).split(" ")
     .sliding(nGram)
     .map(_.mkString)
     .toArray

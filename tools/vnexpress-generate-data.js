@@ -1,7 +1,7 @@
 var lineReader = require('line-reader');
 var fs = require('fs');
 
-var start = 99999;
+var start = 1111;
 lineReader.eachLine('../data/vnexpress-1000.json', function(line, last) {
 	try {
 		var lineData = JSON.parse(line);

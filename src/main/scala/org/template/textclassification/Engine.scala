@@ -21,9 +21,6 @@ case class PredictedResult (
 ) extends Serializable
 
 
-
-
-
 // 3. Define ActualResult class which serves as a wrapper
 // for an observation's true class label.
 class ActualResult(
@@ -42,6 +39,7 @@ object TextClassificationEngine extends EngineFactory {
       Map(
         "nb" -> classOf[NBAlgorithm],
         "lr" -> classOf[LRAlgorithm]
+        //"svm" -> classOf[SVMAlgorithm]
       ), classOf[Serving]
     )
   }
