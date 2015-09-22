@@ -45,10 +45,11 @@ class DataSource (
       // Convert collected RDD of events to and RDD of Observation
       // objects.
     )(sc).map(e => {
+      val label = e.properties.get[Double]("label")
       Observation(
-        e.properties.get[Double]("label"),
+        label,
         e.properties.get[String]("text"),
-        e.properties.get[String]("label")
+        label.toString
       )
     }).cache
   }
