@@ -1,10 +1,10 @@
   {
     "id": "default",
     "description": "ISLab TextClassification Test",
-    "engineFactory": "com.islab.TextClassificationEngine",
+    "engineFactory": "com.islab.textclassification",
     "datasource": {
       "params": {
-        "appName": "islab-scala-parallel-textclassification"
+        "appName": "islab-scala-textclassification"
       }
     },
     "preparator": {
