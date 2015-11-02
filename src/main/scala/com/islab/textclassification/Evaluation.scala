@@ -1,7 +1,6 @@
-package com.islab
+package com.islab.textclassification
 
 import io.prediction.controller._
-
 
 
 // 1. Create an accuracy metric for evaluating our supervised learning model.
@@ -10,12 +9,11 @@ case class Accuracy()
 
   // Method for calculating prediction accuracy.
   def calculate(
-    query: Query,
-    predicted: PredictedResult,
-    actual: ActualResult
-  ) : Double = if (predicted.category == actual.category) 1.0 else 0.0
+                 query: Query,
+                 predicted: PredictedResult,
+                 actual: ActualResult
+                 ): Double = if (predicted.category == actual.category) 1.0 else 0.0
 }
-
 
 
 // 2. Define your evaluation object implementing the accuracy metric defined
@@ -26,9 +24,8 @@ object AccuracyEvaluation extends Evaluation {
   engineMetric = (
     TextClassificationEngine(),
     new Accuracy
-  )
+    )
 }
-
 
 
 // 3. Set your engine parameters for evaluation procedure.

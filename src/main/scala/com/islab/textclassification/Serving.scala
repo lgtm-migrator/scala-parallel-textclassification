@@ -1,4 +1,4 @@
-package com.islab
+package com.islab.textclassification
 
 import io.prediction.controller.LServing
 

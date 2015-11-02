@@ -1,14 +1,10 @@
-package com.islab
+package com.islab.textclassification
 
 import grizzled.slf4j.Logger
-import io.prediction.controller.EmptyEvaluationInfo
-import io.prediction.controller.Params
-import io.prediction.controller.PDataSource
-import io.prediction.controller.SanityCheck
+import io.prediction.controller.{EmptyEvaluationInfo, PDataSource, Params, SanityCheck}
 import io.prediction.data.store.PEventStore
 import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
-
 
 
 // 1. Initialize your Data Source parameters. This is
@@ -17,25 +13,24 @@ import org.apache.spark.rdd.RDD
 // cross validation.
 
 case class DataSourceParams(
-  appName: String,
-  evalK: Option[Int]
-) extends Params
-
+                             appName: String,
+                             evalK: Option[Int]
+                             ) extends Params
 
 
 // 2. Define your DataSource component. Remember, you must
 // implement a readTraining method, and, optionally, a
 // readEval method.
 
-class DataSource (
-  val dsp : DataSourceParams
-) extends PDataSource[TrainingData, EmptyEvaluationInfo, Query, ActualResult] {
+class DataSource(
+                  val dsp: DataSourceParams
+                  ) extends PDataSource[TrainingData, EmptyEvaluationInfo, Query, ActualResult] {
 
   @transient lazy val logger = Logger[this.type]
 
   // Helper function used to store data given
   // a SparkContext.
-  private def readEventData(sc: SparkContext) : RDD[Observation] = {
+  private def readEventData(sc: SparkContext): RDD[Observation] = {
     //Get RDD of Events.
     PEventStore.find(
       appName = dsp.appName,
@@ -56,13 +51,13 @@ class DataSource (
 
   // Helper function used to store stop words from
   // event server.
-  private def readStopWords(sc : SparkContext) : Set[String] = {
+  private def readStopWords(sc: SparkContext): Set[String] = {
     PEventStore.find(
       appName = dsp.appName,
       entityType = Some("resource"),
       eventNames = Some(List("stopwords"))
 
-    //Convert collected RDD of strings to a string set.
+      //Convert collected RDD of strings to a string set.
     )(sc)
       .map(e => e.properties.get[String]("word"))
       .collect
@@ -108,31 +103,31 @@ class DataSource (
 // 3. Observation class serving as a wrapper for both our
 // data's class label and document string.
 case class Observation(
-  label : Double,
-  text : String,
-  category :String
-) extends Serializable
+                        label: Double,
+                        text: String,
+                        category: String
+                        ) extends Serializable
 
 // 4. TrainingData class serving as a wrapper for all
 // read in from the Event Server.
 class TrainingData(
-  val data : RDD[Observation],
-  val stopWords : Set[String]
-) extends Serializable with SanityCheck {
+                    val data: RDD[Observation],
+                    val stopWords: Set[String]
+                    ) extends Serializable with SanityCheck {
 
   // Sanity check to make sure your data is being fed in correctly.
 
   def sanityCheck {
     try {
-      val obs : Array[Double] = data.takeSample(false, 5).map(_.label)
+      val obs: Array[Double] = data.takeSample(false, 5).map(_.label)
 
       println()
       (0 until 5).foreach(
-        k => println("Observation " + (k + 1) +" label: " + obs(k))
+        k => println("Observation " + (k + 1) + " label: " + obs(k))
       )
       println()
     } catch {
-      case (e : ArrayIndexOutOfBoundsException) => {
+      case (e: ArrayIndexOutOfBoundsException) => {
         println()
         println("Data set is empty, make sure event fields match imported data.")
         println()

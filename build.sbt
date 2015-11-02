@@ -11,9 +11,8 @@ resolvers += Resolver.url(
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
 
 libraryDependencies ++= Seq(
-  "io.prediction"    %% "core"        % pioVersion.value % "provided",
+  "io.prediction"    %% "core"        % "0.9.5" % "provided",
   "org.apache.spark" %% "spark-core" % "1.3.1" % "provided",
   "org.apache.spark" %% "spark-mllib" % "1.3.1" % "provided",
-  "org.xerial.snappy" % "snappy-java" % "1.1.1.7",
-  "org.clapper" %% "grizzled-slf4j" % "1.0.2"
+  "org.xerial.snappy" % "snappy-java" % "1.1.1.7"
 )
