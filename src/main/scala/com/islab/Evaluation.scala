@@ -3,6 +3,7 @@ package com.islab
 import io.prediction.controller._
 
 
+
 // 1. Create an accuracy metric for evaluating our supervised learning model.
 case class Accuracy()
   extends AverageMetric[EmptyEvaluationInfo, Query, PredictedResult, ActualResult] {
@@ -12,8 +13,9 @@ case class Accuracy()
                  query: Query,
                  predicted: PredictedResult,
                  actual: ActualResult
-                 ): Double = if (predicted.category == actual.category) 1.0 else 0.0
+                 ) : Double = if (predicted.category == actual.category) 1.0 else 0.0
 }
+
 
 
 // 2. Define your evaluation object implementing the accuracy metric defined
@@ -27,14 +29,13 @@ object AccuracyEvaluation extends Evaluation {
     )
 }
 
-
 // 3. Set your engine parameters for evaluation procedure.
 object EngineParamsList extends EngineParamsGenerator {
 
   // Set data source and preparator parameters.
   private[this] val baseEP = EngineParams(
-    dataSourceParams = DataSourceParams(appName = "ISLabTextClassification", evalK = Some(3)),
-    preparatorParams = PreparatorParams(nGram = 2)
+    dataSourceParams = DataSourceParams(appName = "islab-scala-textclassification", evalK = Some(3)),
+    preparatorParams = PreparatorParams(nGram = 2, 5000, true)
   )
 
   // Set the algorithm params for which we will assess an accuracy score.
