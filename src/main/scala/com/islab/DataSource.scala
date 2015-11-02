@@ -13,9 +13,9 @@ import org.apache.spark.rdd.RDD
 // cross validation.
 
 case class DataSourceParams(
-                             appName: String,
-                             evalK: Option[Int]
-                             ) extends Params
+  appName: String,
+  evalK: Option[Int]
+) extends Params
 
 
 // 2. Define your DataSource component. Remember, you must
@@ -23,8 +23,8 @@ case class DataSourceParams(
 // readEval method.
 
 class DataSource(
-                  val dsp: DataSourceParams
-                  ) extends PDataSource[TrainingData, EmptyEvaluationInfo, Query, ActualResult] {
+  val dsp: DataSourceParams
+) extends PDataSource[TrainingData, EmptyEvaluationInfo, Query, ActualResult] {
 
   @transient lazy val logger = Logger[this.type]
 
