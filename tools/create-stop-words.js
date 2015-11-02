@@ -1,18 +1,29 @@
+/**
+ * Tools generate vietnamese stopwords to events imports file.
+ * Using for EventServer PredictionIO.
+ *
+ * Author: Van-Duyet Le
+ */
 'use strict';
 
+// ===============================
+// CONFIG
+// ===============================
+var OUTPUT = "../data/stopwords-vietnamese.json"; // Output for EventServer-import-file.
+
+// ===============================
+// MAIN
+// ===============================
 var fs = require('fs');
 var wget = require('wget');
 
-var path = '../data/stopwords-vietnamese.json';
-var src = 'https://raw.githubusercontent.com/duyetdev/vietnamese-stopwords/master/vietname-stopwords.txt';
-// var output = '/tmp/data.json';
+var path = OUTPUT;
 
 var wget = require('wget');
 var options = {
     protocol: 'https',
     host: 'raw.githubusercontent.com',
     path: '/duyetdev/vietnamese-stopwords/master/vietname-stopwords.txt',
-    // proxy: 'http://host:port',
     method: 'GET'
 };
 var req = wget.request(options, function(res) {
@@ -26,21 +37,21 @@ var req = wget.request(options, function(res) {
         });
         res.on('end', function() {
             fs.unlink(path, function() {
-            	var words = content.split('\n');
-				for (var i in words) {
-					var stopWordRecord = {
-						event: "stopwords",
-						eventTime: new Date(),
-						entityId: i,
-						entityType: "resource",
-						properties: {
-							word: words[i]
-						}
-					}
+                var words = content.split('\n');
+                for (var i in words) {
+                    var stopWordRecord = {
+                        event: "stopwords",
+                        eventTime: new Date(),
+                        entityId: i,
+                        entityType: "resource",
+                        properties: {
+                            word: words[i]
+                        }
+                    }
 
-					fs.appendFile(path, JSON.stringify(stopWordRecord) + "\n");
-				}
-			});
+                    fs.appendFile(path, JSON.stringify(stopWordRecord) + "\n");
+                }
+            });
         });
     } else {
         console.log('Server respond ' + res.statusCode);
