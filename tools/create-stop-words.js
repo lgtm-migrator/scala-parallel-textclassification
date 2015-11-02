@@ -1,102 +1,64 @@
+/**
+ * Tools generate vietnamese stopwords to events imports file.
+ * Using for EventServer PredictionIO.
+ *
+ * Author: Van-Duyet Le
+ */
 'use strict';
 
+// ===============================
+// CONFIG
+// ===============================
+var OUTPUT = "../data/stopwords-vietnamese.json"; // Output for EventServer-import-file.
+
+// ===============================
+// MAIN
+// ===============================
 var fs = require('fs');
-var path = '../data/stopwords-vietnamese.json';
+var wget = require('wget');
 
-var words = [
-	"bị",
-	"bởi",
-	"cả",
-	"các",
-	"cái",
-	"cần",
-	"càng",
-	"chỉ",
-	"chiếc",
-	"cho",
-	"chứ",
-	"chưa",
-	"chuyện",
-	"có",
-	"có thể",
-	"cứ",
-	"của",
-	"cùng",
-	"cũng",
-	"đã",
-	"đang",
-	"đây",
-	"để",
-	"đến nỗi",
-	"đều",
-	"điều",
-	"do",
-	"đó",
-	"được",
-	"dưới",
-	"gì",
-	"khi",
-	"không",
-	"là",
-	"lại",
-	"lên",
-	"lúc",
-	"mà",
-	"mỗi",
-	"một cách",
-	"này",
-	"nên",
-	"nếu",
-	"ngay",
-	"nhiều",
-	"như",
-	"nhưng",
-	"những",
-	"nơi",
-	"nữa",
-	"phải",
-	"qua",
-	"ra",
-	"rằng",
-	"rằng",
-	"rất",
-	"rất",
-	"rồi",
-	"sau",
-	"sẽ",
-	"so",
-	"sự",
-	"tại",
-	"theo",
-	"thì",
-	"trên",
-	"trước",
-	"từ",
-	"từng",
-	"và",
-	"vẫn",
-	"vào",
-	"vậy",
-	"vì",
-	"việc",
-	"với",
-	"vừa"
-];
+var path = OUTPUT;
 
-fs.unlink(path, function() {
-	for (var i in words) {
-		var stopWordRecord = {
-			event: "stopwords",
-			eventTime: new Date(),
-			entityId: i,
-			entityType: "resource",
-			properties: {
-				word: words[i]
-			}
-		}
+var wget = require('wget');
+var options = {
+    protocol: 'https',
+    host: 'raw.githubusercontent.com',
+    path: '/duyetdev/vietnamese-stopwords/master/vietname-stopwords.txt',
+    method: 'GET'
+};
+var req = wget.request(options, function(res) {
+    var content = '';
+    if (res.statusCode === 200) {
+        res.on('error', function(err) {
+            console.log(err);
+        });
+        res.on('data', function(chunk) {
+            content += chunk;
+        });
+        res.on('end', function() {
+            fs.unlink(path, function() {
+                var words = content.split('\n');
+                for (var i in words) {
+                    var stopWordRecord = {
+                        event: "stopwords",
+                        eventTime: new Date(),
+                        entityId: i,
+                        entityType: "resource",
+                        properties: {
+                            word: words[i]
+                        }
+                    }
 
-		fs.appendFile(path, JSON.stringify(stopWordRecord) + "\n");
-	}
+                    fs.appendFile(path, JSON.stringify(stopWordRecord) + "\n");
+                }
+            });
+        });
+    } else {
+        console.log('Server respond ' + res.statusCode);
+    }
+});
 
-	console.log("Finish!\nUsing: pio import --appid 1 --input " + path)
+req.end();
+req.on('error', function(err) {
+    console.log(err);
 });
