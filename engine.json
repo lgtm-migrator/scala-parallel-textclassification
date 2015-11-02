@@ -1,7 +1,7 @@
   {
     "id": "default",
     "description": "ISLab TextClassification Test",
-    "engineFactory": "com.islab.textclassification",
+    "engineFactory": "com.islab.TextClassificationEngine",
     "datasource": {
       "params": {
         "appName": "islab-scala-textclassification"

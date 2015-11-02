@@ -1,4 +1,4 @@
-package com.islab.textclassification
+package com.islab
 
 import grizzled.slf4j.Logger
 import io.prediction.controller.{EmptyEvaluationInfo, PDataSource, Params, SanityCheck}

@@ -1,4 +1,4 @@
-package com.islab.textclassification
+package com.islab
 
 import io.prediction.controller.{P2LAlgorithm, Params}
 import org.apache.spark.SparkContext

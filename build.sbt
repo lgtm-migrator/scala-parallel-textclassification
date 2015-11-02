@@ -1,14 +1,7 @@
 
-name := "com.islab"
+name := "TextClassificationEngine"
 
 organization := "io.prediction"
-
-resolvers += Resolver.url(
-  "bintray-sbt-plugin-releases",
-  url("http://dl.bintray.com/content/sbt/sbt-plugin-releases"))(
-  Resolver.ivyStylePatterns)
-
-addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.1")
 
 libraryDependencies ++= Seq(
   "io.prediction"    %% "core"        % "0.9.5" % "provided",
