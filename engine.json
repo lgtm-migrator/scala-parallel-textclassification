@@ -4,17 +4,19 @@
     "engineFactory": "com.islab.TextClassificationEngine",
     "datasource": {
       "params": {
-        "appName": "islab-scala-textclassification"
+        "appName": "islab-scala-textclassification",
+        "name": "islab-scala-textclassification"
       }
     },
     "preparator": {
       "params": {
+        "name": "islab",
         "nGram": 2,
         "numFeatures": 15000
       }
     },
     "algorithms": [{
-      "name": "nb",
+      "name": "lr",
       "params": {
         "lambda": 0.25
       }
