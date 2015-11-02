@@ -1,9 +1,12 @@
 package com.islab
 
-import io.prediction.controller.{P2LAlgorithm, Params}
+import io.prediction.controller.P2LAlgorithm
+import io.prediction.controller.Params
 import org.apache.spark.SparkContext
-import org.apache.spark.mllib.classification.{NaiveBayes, NaiveBayesModel}
+import org.apache.spark.mllib.classification.NaiveBayes
+import org.apache.spark.mllib.classification.NaiveBayesModel
 import org.apache.spark.mllib.linalg.Vector
+import com.github.fommil.netlib.F2jBLAS
 
 import scala.math._
 
@@ -11,9 +14,10 @@ import scala.math._
 // using a Naive Bayes classifier, which gives us only one
 // hyperparameter in this stage.
 
-case class NBAlgorithmParams(
-                              lambda: Double
-                              ) extends Params
+case class  NBAlgorithmParams(
+                               lambda: Double
+                               ) extends Params
+
 
 
 // 2. Define SupervisedAlgorithm class.
@@ -39,15 +43,17 @@ class NBModel(
                ) extends Serializable {
 
 
+
   // 1. Fit a Naive Bayes model using the prepared data.
 
-  private val nb: NaiveBayesModel = NaiveBayes.train(
-    pd.transformedData, lambda)
+  private val nb : NaiveBayesModel = NaiveBayes.train(
+    pd.transformedData.map(x=>x.point), lambda)
+
 
 
   // 2. Set up linear algebra framework.
 
-  private def innerProduct(x: Array[Double], y: Array[Double]): Double = {
+  private def innerProduct (x : Array[Double], y : Array[Double]) : Double = {
     x.zip(y).map(e => e._1 * e._2).sum
   }
 
@@ -56,6 +62,7 @@ class NBModel(
 
     u.map(e => e / uSum)
   }
+
 
 
   private val scoreArray = nb.pi.zip(nb.theta)
@@ -68,7 +75,7 @@ class NBModel(
     // Returns an object of type Array[Double]
 
     // Vectorize query,
-    val x: Vector = pd.transform(doc)
+    val x: Vector = pd.transform(doc).vector
 
     val z = scoreArray
       .map(e => innerProduct(e._2, x.toArray) + e._1)
@@ -79,7 +86,7 @@ class NBModel(
   // 4. Implement predict method for our model using
   // the prediction rule given in tutorial.
 
-  def predict(doc: String): PredictedResult = {
+  def predict(doc : String) : PredictedResult = {
     val x: Array[Double] = getScores(doc)
     val y: (Double, Double) = (nb.labels zip x).maxBy(_._2)
     new PredictedResult(pd.categoryMap.getOrElse(y._1, ""), y._2)
